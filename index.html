@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <script>
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('btnInstall').style.display = 'block';
+        });
+        function installApp() {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+                document.getElementById('btnInstall').style.display = 'none';
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Predict Next Result</h1>
+        <form method="POST">
+            <label>Previous 1:</label>
+            <input type="text" name="prev1" required>
+            <label>Previous 2:</label>
+            <input type="text" name="prev2" required>
+            <label>Previous 3:</label>
+            <input type="text" name="prev3" required>
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+        <div class="result {{ 'big' if prediction == 'BIG' else 'small' }}">{{ prediction }}</div>
+        {% endif %}
+        <button id="btnInstall" onclick="installApp()" style="display:none">Add to Home Screen</button>
+    </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js');
+        }
+    </script>
+</body>
+</html>
