@@ -1,0 +1,14 @@
+
+{
+  "name": "BIG/SMALL Predictor",
+  "short_name": "Predictor",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8b0",
+  "theme_color": "#b58900",
+  "icons": [{
+    "src": "/static/icon-192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}
